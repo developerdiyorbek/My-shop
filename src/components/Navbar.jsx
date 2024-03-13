@@ -21,7 +21,7 @@ const Navbar = () => {
           <nav className="flex flex-wrap items-center text-base justify-center">
             <Link
               className="sm:mr-5 mr-3 hover:text-[#ED165F] duration-150"
-              href="/shopping-cart"
+              href="/shoppingCart"
             >
               <FaCartShopping size={20} />
             </Link>
