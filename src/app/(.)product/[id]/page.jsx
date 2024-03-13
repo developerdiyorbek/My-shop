@@ -2,7 +2,7 @@
 
 import CustomImage from "@/components/Images";
 import { Dialog } from "@headlessui/react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation"; // Updated import
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -13,7 +13,6 @@ const ProductDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState();
   const [isOpen, setIsOpen] = useState(true);
-  console.log(product);
 
   const { id } = useParams();
   const router = useRouter();
@@ -34,7 +33,10 @@ const ProductDetailPage = () => {
     router.back();
   };
 
-  const data = JSON.parse(localStorage.getItem("data"));
+  let data;
+  if (typeof window !== "undefined") {
+    data = JSON.parse(localStorage.getItem("data"));
+  }
 
   const handleAdd = (id) => {
     if (!data) {

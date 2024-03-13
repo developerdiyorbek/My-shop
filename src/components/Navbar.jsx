@@ -4,9 +4,19 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
-  const data = JSON.parse(localStorage.getItem("data"));
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const localStorageData = localStorage.getItem("data");
+      if (localStorageData) {
+        setData(JSON.parse(localStorageData));
+      }
+    }
+  }, []);
 
   return (
     <header className="text-gray-600 body-font shadow-md sticky top-0 left-0 bg-white z-10">

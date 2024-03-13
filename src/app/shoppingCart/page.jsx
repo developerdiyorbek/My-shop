@@ -1,21 +1,28 @@
 "use client";
 
-import CustomImage from "@/components/Images";
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa6";
 import { TbShoppingCartDiscount } from "react-icons/tb";
+import CustomImage from "@/components/Images";
 
 const ShoppingCart = () => {
   const [total, setTotal] = useState(0);
-  const [products, setProducts] = useState(
-    JSON.parse(localStorage.getItem("carts")) || []
-  );
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedProducts = JSON.parse(localStorage.getItem("carts")) || [];
+      setProducts(savedProducts);
+    }
+  }, []);
 
   const removeProduct = (id) => {
     const updatedCart = products.filter((product) => product.id !== id);
-    localStorage.setItem("carts", JSON.stringify(updatedCart));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("carts", JSON.stringify(updatedCart));
+    }
     setProducts(updatedCart);
   };
 
@@ -29,9 +36,12 @@ const ShoppingCart = () => {
       }
       return product;
     });
-    localStorage.setItem("carts", JSON.stringify(updatedCart));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("carts", JSON.stringify(updatedCart));
+    }
     setProducts(updatedCart);
   };
+
   const handleDecrement = (id) => {
     const isExist = products.find((product) => product.id === id);
     if (isExist.quantity === 1) {
@@ -46,7 +56,9 @@ const ShoppingCart = () => {
         }
         return product;
       });
-      localStorage.setItem("carts", JSON.stringify(updatedCart));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("carts", JSON.stringify(updatedCart));
+      }
       setProducts(updatedCart);
     }
   };
@@ -122,12 +134,9 @@ const ShoppingCart = () => {
                             {" "}
                             -{" "}
                           </span>
-                          <input
-                            className="h-8 w-8 border bg-white text-center text-xs outline-none"
-                            type="number"
-                            value={product?.quantity}
-                            min="1"
-                          />
+                          <p className="px-[4px] py-[2px] border bg-white">
+                            {product?.quantity}
+                          </p>
                           <span
                             className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-[#ED165F] hover:text-blue-50"
                             onClick={() => handleIncrement(product.id)}

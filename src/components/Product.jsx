@@ -5,13 +5,16 @@ import { GoHeartFill } from "react-icons/go";
 import Link from "next/link";
 import CustomImage from "./Images";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // Change import
 
 const Product = ({ product }) => {
   // router
   const router = useRouter();
-  // data
-  const data = JSON.parse(localStorage.getItem("data"));
+
+  let data;
+  if (typeof window !== "undefined") {
+    data = JSON.parse(localStorage.getItem("data"));
+  }
 
   //favorites
   const handleFavorite = (product) => {
@@ -29,10 +32,10 @@ const Product = ({ product }) => {
       toast.error("This product is already added!");
       return null;
     } else {
-      const data = [...products, { ...product }];
-      localStorage.setItem("likedCarts", JSON.stringify(data));
+      const newData = [...products, { ...product }];
+      localStorage.setItem("likedCarts", JSON.stringify(newData));
     }
-    toast.success("product add to favorites carts 🙂");
+    toast.success("Product added to favorites 🙂");
   };
 
   return (

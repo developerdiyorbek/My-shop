@@ -1,18 +1,22 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Account = () => {
   const router = useRouter();
-
-  const data = JSON.parse(localStorage.getItem("data"));
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    if (!data) {
-      router.push("/login");
+    if (typeof window !== "undefined") {
+      const localStorageData = localStorage.getItem("data");
+      if (localStorageData) {
+        setData(JSON.parse(localStorageData));
+      } else {
+        router.push("/login");
+      }
     }
-  }, [data]);
+  }, [router]);
 
   const handleLogOut = async () => {
     localStorage.clear();

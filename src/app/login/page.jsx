@@ -30,15 +30,19 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data) => {
-    localStorage.setItem("data", JSON.stringify(data));
-    await router.push("/account");
-    window.location.reload();
+    if (typeof window !== "undefined") {
+      localStorage.setItem("data", JSON.stringify(data));
+      await router.push("/account");
+      window.location.reload();
+    }
   };
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("data"));
-    if (data) {
-      router.push("/account");
+    if (typeof window !== "undefined") {
+      const data = JSON.parse(localStorage.getItem("data"));
+      if (data) {
+        router.push("/account");
+      }
     }
   }, []);
 

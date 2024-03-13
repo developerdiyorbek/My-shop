@@ -2,17 +2,19 @@
 
 import CustomImage from "@/components/Images";
 import Link from "next/link";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import { CiTrash } from "react-icons/ci";
 
 const Favorites = () => {
-  const [likedCarts, setLikedCarts] = useState(
-    JSON.parse(localStorage.getItem("likedCarts") || "[]")
-  );
+  const [likedCarts, setLikedCarts] = useState([]);
+
+  useEffect(() => {
+    const storedLikedCarts =
+      JSON.parse(localStorage.getItem("likedCarts")) || [];
+    setLikedCarts(storedLikedCarts);
+  }, []);
 
   // remove product
-
   const removeCart = (id) => {
     const updatedLikedCarts = likedCarts.filter((product) => product.id !== id);
     localStorage.setItem("likedCarts", JSON.stringify(updatedLikedCarts));
@@ -33,6 +35,7 @@ const Favorites = () => {
       </div>
     );
   }
+
   return (
     <div className="min-h-screen max-w-7xl mx-auto px-8 xl:px-0 my-10">
       <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
